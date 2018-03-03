@@ -14,7 +14,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let ngrok = "http://786794ad.ngrok.io/"
     var chosenImage: UIImage! = nil
     
-    @IBOutlet var imageView: UIImageView!
+//    @IBOutlet var imageView: UIImageView!
     @IBAction func takePicture(_ sender: Any) {
         let imagePicker = UIImagePickerController();
         imagePicker.delegate = self;
@@ -30,12 +30,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var imagePicker: UIImagePickerController!
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage;
+        image = chosenImage
+//        imageView.image = chosenImage;
+//        let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
         
-        imageView.image = chosenImage;
-        let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
         
-        
-        let base64String = (imageData as NSData).base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0));
+//        let base64String = (imageData as NSData).base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0));
         
         
         //        let binaryImageData = base64EncodeImage(#imageLiteral(resourceName: "test_image.png"))
@@ -47,6 +47,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         
         dismiss(animated: true, completion: nil);
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil);
+        let ivc = storyboard.instantiateViewController(withIdentifier: "filler-processing");
+        ivc.modalPresentationStyle = .custom;
+        ivc.modalTransitionStyle = .crossDissolve;
+        self.present(ivc, animated: true);
+        
     }
     func same() {
         
