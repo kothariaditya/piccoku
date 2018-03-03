@@ -138,8 +138,6 @@ class FillerViewController: UIViewController {
         let synonym2_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&max=10&md=sp"
         
         getSynonyms(url: synonym2_url){(output) in
-            let dictionary_v = self.convertToDictionary(text: output)
-            
             // this is hella stupid but basically just converting the data into a readable format
             let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
             var results = [String]()
@@ -164,11 +162,9 @@ class FillerViewController: UIViewController {
 
         
         var artsy_adjectives = [[String]].init()
-        let synonym3_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&topics=beautiful&max=10&md=sp"
+        let synonym3_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&topics=beautiful&max=20&md=sp"
         
         getSynonyms(url: synonym3_url){(output) in
-            let dictionary_v = self.convertToDictionary(text: output)
-            
             // this is hella stupid but basically just converting the data into a readable format
             let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
             var results = [String]()
@@ -262,22 +258,36 @@ class FillerViewController: UIViewController {
     }
     
     func secondLine(adjectives:[[String]], artsy:[[String]], color:String) -> String{
-        let second_line_count = 7
-        var syllable_current = 0
+        var remaining_syllables = 7
+        var second_line = ""
         
         let color = color
-        syllable_current += color_syllables
+        second_line += color + " "
+        
+        remaining_syllables -= color_syllables
         
         let artsy_word = artsy[0][0].components(separatedBy: ":")[1]
+        print (artsy_word)
+        
+        second_line += artsy_word + " "
+        
         let artsy_syllables = Int(artsy[0][1].components(separatedBy: ":")[1])
-        syllable_current += artsy_syllables!
+        remaining_syllables -= artsy_syllables!
         
+        var index = 1
+        while remaining_syllables > 0{
+            let x = artsy[index]
+            let num_syllable:Int = getSyllable(data:x)
+            let adjective = getWord(data:x)
+            if(remaining_syllables - num_syllable >= 0){
+                second_line += adjective + " "
+                remaining_syllables -= num_syllable
+            }
+            
+            index += 1
+        }
         
-        
-        print ("artsyword is " + artsy_word)
-        
-        
-        return "X"
+        return second_line
     }
 
     
