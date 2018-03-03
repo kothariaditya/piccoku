@@ -84,6 +84,8 @@ class FillerViewController: UIViewController {
             print("---")
             print(deepag)
             wordInfo = deepag
+            
+            self.performSegue(withIdentifier: "toPoem", sender: self)
         }
 //        self.performSegue(withIdentifier: "toPoem", sender: self)
         
