@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0A078B67204AD3960099BB53 /* FillerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A078B66204AD3960099BB53 /* FillerViewController.swift */; };
 		0A078B69204AD43D0099BB53 /* PoemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A078B68204AD43D0099BB53 /* PoemViewController.swift */; };
-		0A74ACC2204B101900CFE3F9 /* verbs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A74ACC1204B101900CFE3F9 /* verbs.txt */; };
 		24911D45641A622FA4796263 /* Pods_poem_pictureTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C1A0CDF6307B917DD57B1C /* Pods_poem_pictureTests.framework */; };
 		7D1A6EA2B79E7CC778F1C095 /* Pods_poem_pictureUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B08C73ECAA954B774ABEB3A0 /* Pods_poem_pictureUITests.framework */; };
 		7F75C70CE1C0DB43D51BDC12 /* Pods_poem_picture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF850BB7B46A9458394CE700 /* Pods_poem_picture.framework */; };
@@ -43,7 +42,6 @@
 /* Begin PBXFileReference section */
 		0A078B66204AD3960099BB53 /* FillerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillerViewController.swift; sourceTree = "<group>"; };
 		0A078B68204AD43D0099BB53 /* PoemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoemViewController.swift; sourceTree = "<group>"; };
-		0A74ACC1204B101900CFE3F9 /* verbs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = verbs.txt; sourceTree = "<group>"; };
 		0B3A4FD243C3AD3E06971838 /* Pods-poem-picture.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-poem-picture.release.xcconfig"; path = "Pods/Target Support Files/Pods-poem-picture/Pods-poem-picture.release.xcconfig"; sourceTree = "<group>"; };
 		14C1A0CDF6307B917DD57B1C /* Pods_poem_pictureTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_poem_pictureTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E5BD1931DAE63EEE79752D1 /* Pods-poem-pictureTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-poem-pictureTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-poem-pictureTests/Pods-poem-pictureTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				A1DF229B204ABE68003B8D50 /* Assets.xcassets */,
 				A1DF229D204ABE68003B8D50 /* LaunchScreen.storyboard */,
 				A1DF22A0204ABE68003B8D50 /* Info.plist */,
-				0A74ACC1204B101900CFE3F9 /* verbs.txt */,
 			);
 			path = "poem-picture";
 			sourceTree = "<group>";
@@ -294,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1DF229F204ABE68003B8D50 /* LaunchScreen.storyboard in Resources */,
-				0A74ACC2204B101900CFE3F9 /* verbs.txt in Resources */,
 				A1DF229C204ABE68003B8D50 /* Assets.xcassets in Resources */,
 				A1DF229A204ABE68003B8D50 /* Main.storyboard in Resources */,
 			);
