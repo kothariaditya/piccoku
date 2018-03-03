@@ -10,8 +10,10 @@ import Foundation
 import UIKit
 
 var image: UIImage!
+var username: String!
 
 class HomeController: ViewController {
+    @IBOutlet var name: UITextField!
     @IBAction func start(_ sender: Any) {
 //        if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
 //                let alertController = UIAlertController(title: "Error", message: "Please turn your device horizontallly.", preferredStyle: .alert)
@@ -20,6 +22,7 @@ class HomeController: ViewController {
 //                self.present(alertController, animated: true, completion: nil)
 //        }
 //            else {
+        username = name.text
             let storyboard = UIStoryboard(name: "Main", bundle: nil);
             let ivc = storyboard.instantiateViewController(withIdentifier: "picture");
             ivc.modalPresentationStyle = .custom;

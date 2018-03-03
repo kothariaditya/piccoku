@@ -11,12 +11,39 @@ import UIKit
 class PoemViewController: UIViewController {
     var poem:String!
     
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var poemview: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        print ("ASDFLKJASFDLJKFADSLJKAFDS")
-        print (poem)
+        poemview.text = poem
+        imageView.image = image
+        
+        let lines = poem.components(separatedBy: "\n")
 
         // Do any additional setup after loading the view.
+        
+//        let url = URL(string: "https://ancient-plateau-48847.herokuapp.com/images/create")!
+//        var request = URLRequest(url: url)
+//        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+//        request.httpMethod = "POST"
+//        let postString = "url=" + base64 + "&name=" + username + "&line1=" + lines[0] + "&line2=" + lines[1] + "&line3=" + lines[2]
+//        request.httpBody = postString.data(using: .utf8)
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+//                print("error=\(error)")
+//                return
+//            }
+//            
+//            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+//                print("response = \(response)")
+//            }
+//            
+//            let responseString = String(data: data, encoding: .utf8)
+//            print("responseString = \(responseString)")
+//        }
+//        task.resume()
+        
     }
 
     override func didReceiveMemoryWarning() {

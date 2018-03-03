@@ -8,7 +8,7 @@
 
 import UIKit
 import Foundation
-import SwiftyJSON
+//import SwiftyJSON
 
 class FillerViewController: UIViewController {
     var ghetto_tags = ""
@@ -31,7 +31,8 @@ class FillerViewController: UIViewController {
         
         if let tags = dict!["tags"] as? NSArray{
             if(tags.count <= 3){
-                //TODO: emily make this retake please
+                //TODO: emily make this retake please -- lmao it's still cut
+                self.performSegue(withIdentifier: "retake", sender: self)
             }
         }
         
