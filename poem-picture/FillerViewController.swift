@@ -14,6 +14,8 @@ class FillerViewController: UIViewController {
     var ghetto_tags = ""
     var tags = [String].init()
     var num_syllables = [Int].init()
+    var color = ""
+    var color_syllables = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,14 +25,19 @@ class FillerViewController: UIViewController {
         let dict = convertToDictionary(text: ghetto_tags)
         var scores = (NSArray.init() as? [Float])!
         
+        if let tags = dict!["tags"] as? NSArray{
+            if(tags.count <= 3){
+                //TODO: emily make this retake please
+            }
+        }
+        
         if let same = dict!["tags"] as? NSArray{
             for x in same{
                 let stringX = "\(x)"
                 var same = stringX.components(separatedBy: "\n")
                 var tag = same[2]
                 var score = same[1]
-                print ("tag is " + tag)
-                print ("score is " + score)
+                
 //                if let match = tag.range(of: "(?<=\")[^_]+", options: .regularExpression) {
                 tag = tag.components(separatedBy:"=")[1]
                 
@@ -47,19 +54,33 @@ class FillerViewController: UIViewController {
                 tag = tag.replacingOccurrences(of: "_", with: "")
             }
         }
+        var color = (dict!["color"])! as? [String:AnyObject]
+        var backgroundColor = ""
+        if let color2 = color!["dominantColorBackground"] as? String{
+            backgroundColor = color2
+        }
+        else if let color3 = color!["dominantColorForeground"] as? String{
+            backgroundColor = color3
+        }
+        
         
         var count = 0
         var nouns = [String].init()
-        
-        while count < 3{
-            let max_score = scores.max()
-            let index = scores.index(of: max_score!)
-            let tag = tags[index!]
-            nouns.append(tag)
-            tags.remove(at:index!)
-            scores.remove(at:index!)
-            count += 1
+        if(scores.count >= 3){
+            while count < 3{
+                let max_score = scores.max()
+                let index = scores.index(of: max_score!)
+                let tag = tags[index!]
+                nouns.append(tag)
+                tags.remove(at:index!)
+                scores.remove(at:index!)
+                count += 1
+            }
         }
+        else{
+            nouns = tags
+        }
+        
         
         var largest_tag = nouns[0]
         
@@ -68,9 +89,6 @@ class FillerViewController: UIViewController {
         
         var real_nouns = [[String]].init()
         getSynonyms(url: synonym1_url){(output) in
-            let dictionary_v = self.convertToDictionary(text: output)
-            
-            // this is hella stupid but basically just converting the data into a readable format
             let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
             var results = [String]()
             
@@ -86,18 +104,39 @@ class FillerViewController: UIViewController {
             var deepag: [[String]] = []
             for (index, str) in asdf.enumerated() {
                 asdf[index] = str.replacingOccurrences(of: "\"", with: "")
-//                print (asdf[index])
                 deepag.append([asdf[index].components(separatedBy: ",")[0], asdf[index].components(separatedBy: ",")[2]])
             }
             
-
             real_nouns = deepag
         }
         
-        print (real_nouns)
+        let synonym4_url = "https://api.datamuse.com/words?ml=" + backgroundColor + "&max=5&md=sp"
+        
+        
+        let url4 = "https://wordsapiv1.p.mashape.com/words/" + backgroundColor + "/syllables"
+        
+        var request = URLRequest(url: URL(string: url4)!)
+        request.httpMethod = "GET"
+        request.addValue("ro0dDrnSoImshe5xvMpPE7Mej0Nrp1ZoiaqjsnqjCNCqti4mXN", forHTTPHeaderField: "X-Mashape-Key")
+        request.addValue("wordsapiv1.p.mashape.com", forHTTPHeaderField: "wordsapiv1.p.mashape.com")
+        
+        let session = URLSession.shared
+        var color_syllables = 0
+        
+        session.dataTask(with: request) {data, response, err in
+            let responseString = String(data: data!, encoding: .utf8)!
+            let dict = self.convertToDictionary(text: responseString)
+            if let syllables = dict!["syllables"] as? [String:AnyObject]{
+                if let count = syllables["count"] as? Int{
+                    color_syllables = count
+                }
+            }
+            }.resume()
+
         
         var adjectives = [[String]].init()
         let synonym2_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&max=10&md=sp"
+        
         getSynonyms(url: synonym2_url){(output) in
             let dictionary_v = self.convertToDictionary(text: output)
             
@@ -113,7 +152,7 @@ class FillerViewController: UIViewController {
             
             var asdf = results.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
             let stringArray = results.chunked(by: 2)
-            // um better formatted i guess
+
             var deepag: [[String]] = []
             for (index, str) in asdf.enumerated() {
                 asdf[index] = str.replacingOccurrences(of: "\"", with: "")
@@ -122,12 +161,126 @@ class FillerViewController: UIViewController {
             
             adjectives = deepag
         }
+
         
+        var artsy_adjectives = [[String]].init()
+        let synonym3_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&topics=beautiful&max=10&md=sp"
         
+        getSynonyms(url: synonym3_url){(output) in
+            let dictionary_v = self.convertToDictionary(text: output)
+            
+            // this is hella stupid but basically just converting the data into a readable format
+            let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
+            var results = [String]()
+            
+            regex.enumerateMatches(in: output, options: [], range: NSMakeRange(0, output.utf16.count)) { result, flags, stop in
+                if let r = result?.range(at: 1), let range = Range(r, in: output) {
+                    results.append(String(output[range]))
+                }
+            }
+            
+            var asdf = results.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
+            let stringArray = results.chunked(by: 2)
+            
+            var deepag: [[String]] = []
+            for (index, str) in asdf.enumerated() {
+                asdf[index] = str.replacingOccurrences(of: "\"", with: "")
+                deepag.append([asdf[index].components(separatedBy: ",")[0], asdf[index].components(separatedBy: ",")[2]])
+            }
+            
+            artsy_adjectives = deepag
+            
+            print ("artsy adjectives are ---")
+            print (artsy_adjectives)
+            
+            self.makeHaiku(tag:largest_tag, real_nouns: real_nouns, adjectives: adjectives,artsy:artsy_adjectives, color:backgroundColor)
+        }
 //        self.performSegue(withIdentifier: "toPoem", sender: self)
-        
         // Do any additional setup after loading the view.
     }
+    
+    func getSyllable(url:String){
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "GET"
+        request.addValue("", forHTTPHeaderField: "X-Mashape-Key")
+        request.addValue("wordsapiv1.p.mashape.com", forHTTPHeaderField: "wordsapiv1.p.mashape.com")
+        
+        let session = URLSession.shared
+        
+        session.dataTask(with: request) {data, response, err in
+            let responseString = String(data: data!, encoding: .utf8)!
+            let dict = self.convertToDictionary(text: responseString)
+            if let syllables = dict!["syllables"] as? [String:AnyObject]{
+                if let count = syllables["count"] as? Int{
+                    self.color_syllables = count
+                }
+            }
+            }.resume()
+    }
+    
+    func makeHaiku(tag:String, real_nouns:[[String]], adjectives:[[String]], artsy:[[String]], color:String){
+        let third_line_count = 5
+        
+        let first_line = firstLine(real_nouns:real_nouns, adjectives:adjectives)
+        print (first_line)
+        let second_line = secondLine(adjectives:adjectives, artsy:artsy, color:color)
+        print (second_line)
+    }
+    
+    func getWord(data:[String]) -> String{
+        let first_adjective = data[0].components(separatedBy:":")[1]
+        return first_adjective
+    }
+    
+    func getSyllable(data:[String]) -> Int{
+        let num_syllables = Int(data[1].components(separatedBy: ":")[1])
+        return num_syllables!
+    }
+    
+    func firstLine(real_nouns:[[String]], adjectives:[[String]]) -> String{
+        let first_line_count = 5
+        let first_word_word = real_nouns[0][0].components(separatedBy: ":")
+        let first_word_syllable = real_nouns[0][1].components(separatedBy: ":")
+        
+        let first_noun = first_word_word[1]
+        let first_syllable = Int(first_word_syllable[1])
+        
+        var first_adjective = ""
+        
+        for x in adjectives{
+            let num_syllable:Int = getSyllable(data:x)
+
+            if(first_line_count - first_syllable! == num_syllable){
+                first_adjective = getWord(data:x)
+                break
+            }
+        }
+        print (first_adjective, first_noun)
+        let first_line = first_adjective + " " + first_noun + "\n"
+        
+        return first_line
+    }
+    
+    func secondLine(adjectives:[[String]], artsy:[[String]], color:String) -> String{
+        let second_line_count = 7
+        var syllable_current = 0
+        
+        let color = color
+        syllable_current += color_syllables
+        
+        let artsy_word = artsy[0][0].components(separatedBy: ":")[1]
+        let artsy_syllables = Int(artsy[0][1].components(separatedBy: ":")[1])
+        syllable_current += artsy_syllables!
+        
+        
+        
+        print ("artsyword is " + artsy_word)
+        
+        
+        return "X"
+    }
+
+    
     func find(inText text: String, pattern: String) -> [String]? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
