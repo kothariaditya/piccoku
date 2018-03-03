@@ -10,6 +10,7 @@
 		24911D45641A622FA4796263 /* Pods_poem_pictureTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C1A0CDF6307B917DD57B1C /* Pods_poem_pictureTests.framework */; };
 		7D1A6EA2B79E7CC778F1C095 /* Pods_poem_pictureUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B08C73ECAA954B774ABEB3A0 /* Pods_poem_pictureUITests.framework */; };
 		7F75C70CE1C0DB43D51BDC12 /* Pods_poem_picture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF850BB7B46A9458394CE700 /* Pods_poem_picture.framework */; };
+		A1359C81204ACB6F0031F8AE /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1359C80204ACB6F0031F8AE /* HomeController.swift */; };
 		A1DF2295204ABE68003B8D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF2294204ABE68003B8D50 /* AppDelegate.swift */; };
 		A1DF2297204ABE68003B8D50 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DF2296204ABE68003B8D50 /* ViewController.swift */; };
 		A1DF229A204ABE68003B8D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1DF2298204ABE68003B8D50 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		2E21FAD9D01C04BAE2FB41A5 /* Pods-poem-pictureTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-poem-pictureTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-poem-pictureTests/Pods-poem-pictureTests.release.xcconfig"; sourceTree = "<group>"; };
 		87F30A6A2DEACD4DE180966D /* Pods-poem-pictureUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-poem-pictureUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-poem-pictureUITests/Pods-poem-pictureUITests.release.xcconfig"; sourceTree = "<group>"; };
 		90BB183D136FAC5D1E1DCAAD /* Pods-poem-pictureUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-poem-pictureUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-poem-pictureUITests/Pods-poem-pictureUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A1359C80204ACB6F0031F8AE /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		A1DF2291204ABE68003B8D50 /* poem-picture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "poem-picture.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1DF2294204ABE68003B8D50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1DF2296204ABE68003B8D50 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				A1DF2294204ABE68003B8D50 /* AppDelegate.swift */,
 				A1DF2296204ABE68003B8D50 /* ViewController.swift */,
 				A1DF2298204ABE68003B8D50 /* Main.storyboard */,
+				A1359C80204ACB6F0031F8AE /* HomeController.swift */,
 				A1DF229B204ABE68003B8D50 /* Assets.xcassets */,
 				A1DF229D204ABE68003B8D50 /* LaunchScreen.storyboard */,
 				A1DF22A0204ABE68003B8D50 /* Info.plist */,
@@ -459,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1DF2297204ABE68003B8D50 /* ViewController.swift in Sources */,
+				A1359C81204ACB6F0031F8AE /* HomeController.swift in Sources */,
 				A1DF2295204ABE68003B8D50 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
