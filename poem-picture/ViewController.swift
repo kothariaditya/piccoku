@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    let ngrok = "https://asdfjlk.ajksl/"
     var chosenImage: UIImage! = nil
     
     @IBOutlet var imageView: UIImageView!
@@ -41,6 +43,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //
         
         //     do stuff with image
+//        URL(String: ngrok + "?base64=" + base64String)
+        var url = URL(string: ngrok + "?base64=" + base64String)
+        var response = Alamofire.request(url)
+        
         dismiss(animated: true, completion: nil);
     }
     

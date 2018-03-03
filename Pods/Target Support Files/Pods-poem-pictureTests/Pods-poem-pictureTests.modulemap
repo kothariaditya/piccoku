@@ -1,0 +1,6 @@
+framework module Pods_poem_pictureTests {
+  umbrella header "Pods-poem-pictureTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
