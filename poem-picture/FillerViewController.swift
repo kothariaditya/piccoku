@@ -10,54 +10,65 @@ import UIKit
 import Foundation
 import SwiftyJSON
 
-var wordInfo: [[String]]!
-
 class FillerViewController: UIViewController {
     var ghetto_tags = ""
     var tags = [String].init()
     var num_syllables = [Int].init()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tags = (NSArray.init() as? [String])!
         num_syllables = (NSArray.init() as? [Int])!
         
-        
         let dict = convertToDictionary(text: ghetto_tags)
+        var scores = (NSArray.init() as? [Float])!
         
-        print(dict)
-        print(ghetto_tags)
-        print(JSON(ghetto_tags))
-        
-        if let same = dict!["categories"] as? NSArray{
+        if let same = dict!["tags"] as? NSArray{
             for x in same{
                 let stringX = "\(x)"
-                print(stringX)
                 var same = stringX.components(separatedBy: "\n")
-                print(same)
-                var tag = same[1]
-                if let match = same[1].range(of: "(?<=\")[^_]+", options: .regularExpression) {
-                    print(same[1].substring(with: match))
-                    tags.append(same[1].substring(with: match))
-                }
+                var tag = same[2]
+                var score = same[1]
+                print ("tag is " + tag)
+                print ("score is " + score)
+//                if let match = tag.range(of: "(?<=\")[^_]+", options: .regularExpression) {
+                tag = tag.components(separatedBy:"=")[1]
+                
+                let start = tag.index(tag.startIndex, offsetBy: 1)
+                let end = tag.index(tag.endIndex, offsetBy: -1)
+                let range = start..<end
+                
+                let new_tag = tag.substring(with: range)
+                tags.append(new_tag)
+                
+                let isolated_score = (Float(score.components(separatedBy: ("\""))[1]))!
+                scores.append(isolated_score)
+                
                 tag = tag.replacingOccurrences(of: "_", with: "")
-                print(tag)
-//                tags.append(tag)
             }
         }
         
-        let largest_tag = tags[0]
-        print(largest_tag)
-        getSynonyms(tag: largest_tag){(output) in
-            print (output)
-            print("asdf")
-            print(JSON(output))
+        var count = 0
+        var nouns = [String].init()
+        
+        while count < 3{
+            let max_score = scores.max()
+            let index = scores.index(of: max_score!)
+            let tag = tags[index!]
+            nouns.append(tag)
+            tags.remove(at:index!)
+            scores.remove(at:index!)
+            count += 1
+        }
+        
+        var largest_tag = nouns[0]
+        
+        
+        let synonym1_url = "https://api.datamuse.com/words?ml=" + largest_tag + "&max=10&md=sp"
+        
+        var real_nouns = [[String]].init()
+        getSynonyms(url: synonym1_url){(output) in
             let dictionary_v = self.convertToDictionary(text: output)
-            print (dictionary_v)
-            print("---nani")
-            for word in output {
-                print(word)
-            }
             
             // this is hella stupid but basically just converting the data into a readable format
             let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
@@ -69,24 +80,50 @@ class FillerViewController: UIViewController {
                 }
             }
             
-            print(results) // ["test", "test1"]
             var asdf = results.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
             let stringArray = results.chunked(by: 2)
-//            let asdf = stringArray.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
-            print(asdf)
+            // um better formatted i guess
+            var deepag: [[String]] = []
+            for (index, str) in asdf.enumerated() {
+                asdf[index] = str.replacingOccurrences(of: "\"", with: "")
+//                print (asdf[index])
+                deepag.append([asdf[index].components(separatedBy: ",")[0], asdf[index].components(separatedBy: ",")[2]])
+            }
+            
+
+            real_nouns = deepag
+        }
+        
+        print (real_nouns)
+        
+        var adjectives = [[String]].init()
+        let synonym2_url = "https://api.datamuse.com/words?rel_jjb=" + largest_tag + "&max=10&md=sp"
+        getSynonyms(url: synonym2_url){(output) in
+            let dictionary_v = self.convertToDictionary(text: output)
+            
+            // this is hella stupid but basically just converting the data into a readable format
+            let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
+            var results = [String]()
+            
+            regex.enumerateMatches(in: output, options: [], range: NSMakeRange(0, output.utf16.count)) { result, flags, stop in
+                if let r = result?.range(at: 1), let range = Range(r, in: output) {
+                    results.append(String(output[range]))
+                }
+            }
+            
+            var asdf = results.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
+            let stringArray = results.chunked(by: 2)
             // um better formatted i guess
             var deepag: [[String]] = []
             for (index, str) in asdf.enumerated() {
                 asdf[index] = str.replacingOccurrences(of: "\"", with: "")
                 deepag.append([asdf[index].components(separatedBy: ",")[0], asdf[index].components(separatedBy: ",")[2]])
             }
-//            var deepag: [[String]]
-            print("---")
-            print(deepag)
-            wordInfo = deepag
             
-            self.performSegue(withIdentifier: "toPoem", sender: self)
+            adjectives = deepag
         }
+        
+        
 //        self.performSegue(withIdentifier: "toPoem", sender: self)
         
         // Do any additional setup after loading the view.
@@ -107,8 +144,7 @@ class FillerViewController: UIViewController {
         return nil
     }
     
-    func getSynonyms(tag:String, completionBlock: @escaping (String) -> Void) -> Void{
-        let url = "https://api.datamuse.com/words?ml=" + tag + "&max=10&md=sp"
+    func getSynonyms(url:String, completionBlock: @escaping (String) -> Void) -> Void{
         
         let req = NSMutableURLRequest(url: URL(string:url)!)
         req.httpMethod = "GET"
@@ -118,8 +154,6 @@ class FillerViewController: UIViewController {
                 print(error?.localizedDescription)
             } else {
                 let stringV = String(data: data!, encoding: .utf8)!
-                print ("stringV is " + stringV)
-                print(JSON(stringV))
                 completionBlock(stringV);
             }
         }.resume()

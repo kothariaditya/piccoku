@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -42,7 +41,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.tags = output
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.dismiss(animated: true){
                 self.performSegue(withIdentifier: "toFiller", sender: nil)
             };
@@ -59,8 +58,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func same(imageData:Data, completionBlock: @escaping (String) -> Void) -> Void {
         var key = "ce9c64a70167498fafcdbfd3502a63fd"
-        let urlString = "https://westus2.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories&language=en"
-        print (urlString)
+        
+        let urlString = "https://westus2.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=tags,color&language=en"
+        
         let url = URL(string: urlString)!
         var request = URLRequest(url: url)
         
@@ -79,6 +79,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             
             responseString = String(data: data, encoding: .utf8)!
+//            print ("responsestring is " + responseString)
             completionBlock(responseString);
         }
         task.resume()
