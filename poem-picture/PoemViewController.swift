@@ -9,9 +9,12 @@
 import UIKit
 
 class PoemViewController: UIViewController {
-
+    var poem:String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print ("ASDFLKJASFDLJKFADSLJKAFDS")
+        print (poem)
 
         // Do any additional setup after loading the view.
     }

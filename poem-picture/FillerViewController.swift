@@ -19,6 +19,7 @@ class FillerViewController: UIViewController {
     var adverb = ""
     var adverb_count = 0
     var tag_count = 0
+    var entire_poem = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +134,6 @@ class FillerViewController: UIViewController {
         
         let synonym4_url = "https://api.datamuse.com/words?ml=" + backgroundColor + "&max=5&md=sp"
         
-        
         let url4 = "https://wordsapiv1.p.mashape.com/words/" + backgroundColor + "/syllables"
         
         var request = URLRequest(url: URL(string: url4)!)
@@ -230,7 +230,6 @@ class FillerViewController: UIViewController {
             for (index, str) in asdf.enumerated() {
                 asdf[index] = str.replacingOccurrences(of: "\"", with: "")
                 
-                print (asdf[index])
                 let word = asdf[index].components(separatedBy: ",")[0].components(separatedBy:":")[1]
                 
                 let num_syllables = Int(String(Array(asdf[index].components(separatedBy: "numSyllables:")[1])[0]))
@@ -260,14 +259,12 @@ class FillerViewController: UIViewController {
     }
     
     func makeHaiku(tag:String, real_nouns:[[String]], adjectives:[[String]], artsy:[[String]], color:String){
-        let third_line_count = 5
-        
         let first_line = firstLine(real_nouns:real_nouns, adjectives:adjectives)
-        print (first_line)
         let second_line = secondLine(adjectives:adjectives, artsy:artsy, color:color)
-        print (second_line)
         let third_line = thirdLine(tag:tag, adjectives:adjectives)
-        print (third_line)
+        entire_poem += first_line + "\n" + second_line + "\n" + third_line
+        print ("SDLKAFSDJLKFALJKFADS" + entire_poem)
+        self.performSegue(withIdentifier: "toPoem", sender: nil)
     }
 
     func firstLine(real_nouns:[[String]], adjectives:[[String]]) -> String{
@@ -416,22 +413,24 @@ class FillerViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if(segue.identifier == "toPoem"){
+            var same = segue.destination as? PoemViewController
+            same?.poem = self.entire_poem
+        }
     }
     /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+         Get the new view controller using segue.destinationViewController.
+         Pass the selected object to the new view controller.
     }
     */
 
 }
 
 extension Array {
-    
     func chunked(by distance: IndexDistance) -> [[Element]] {
         let indicesSequence = stride(from: startIndex, to: endIndex, by: distance)
         let array: [[Element]] = indicesSequence.map {
@@ -442,4 +441,3 @@ extension Array {
         return array
     }
 }
-
