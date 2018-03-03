@@ -10,6 +10,7 @@ const JSON_input = JSON.parse(httpGet('https://cors-anywhere.herokuapp.com/https
 let container = document.getElementById("container")
 
 for (let elem_index in JSON_input) {
+	let base64Decoded = atob(elem.url)
 	let elem = JSON_input[elem_index]
 	let elem2 = JSON_input[elem_index + 1]
 	container.innerHTML += "<div class = 'row'>\
@@ -23,7 +24,7 @@ for (let elem_index in JSON_input) {
 									<p class = 'top'>" + elem.line1 + "</p>\
 									<p class = 'mid'>" + elem.line2 + "</p>\
 									<p class = 'bot'>" + elem.line3 + "</p>\
-									<img src = " + elem.url + ">\
+									<img src = 'data:image/png;base64," + base64Decoded + "'>\
 								</div>\
 							</div>"
 }
