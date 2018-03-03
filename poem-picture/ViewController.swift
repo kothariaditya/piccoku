@@ -11,10 +11,12 @@ import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let ngrok = "http://786794ad.ngrok.io/"
+//    let ngrok = "http://786794ad.ngrok.io/"
     var chosenImage: UIImage! = nil
+    var tags:String!
     
-//    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var imageView: UIImageView!
+    //    @IBOutlet var imageView: UIImageView!
     @IBAction func takePicture(_ sender: Any) {
         let imagePicker = UIImagePickerController();
         imagePicker.delegate = self;
@@ -31,21 +33,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage;
         image = chosenImage
-//        imageView.image = chosenImage;
-//        let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
         
-        
-//        let base64String = (imageData as NSData).base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0));
-        
-        
-        //        let binaryImageData = base64EncodeImage(#imageLiteral(resourceName: "test_image.png"))
-        //        createRequest(with: binaryImageData)
-        //
-        
-        //     do stuff with image
+        imageView.image = chosenImage;
+        let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
 
-        
-        
+        same(imageData:imageData) { (output) in
+            self.tags = output
+        }
         dismiss(animated: true, completion: nil);
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil);
@@ -55,8 +49,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.present(ivc, animated: true);
         
     }
-    func same() {
+    
+    func same(imageData:Data, completionBlock: @escaping (String) -> Void) -> Void {
+        let urlString = "https://westus2.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories&language=en"
+        print (urlString)
+        let url = URL(string: urlString)!
+        var request = URLRequest(url: url)
         
+        request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+        request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "POST"
+        let postString = imageData
+        request.httpBody = postString
+        
+        var responseString = ""
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            
+            responseString = String(data: data, encoding: .utf8)!
+            completionBlock(responseString);
+        }
+        task.resume()
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

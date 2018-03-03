@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-let image = nil;
+var image: UIImage!
 
 class HomeController: ViewController {
     @IBAction func start(_ sender: Any) {
