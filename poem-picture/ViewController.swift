@@ -11,7 +11,7 @@ import Alamofire
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let ngrok = "https://asdfjlk.ajksl/"
+    let ngrok = "http://786794ad.ngrok.io/"
     var chosenImage: UIImage! = nil
     
     @IBOutlet var imageView: UIImageView!
@@ -43,13 +43,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //
         
         //     do stuff with image
-//        URL(String: ngrok + "?base64=" + base64String)
-        var url = URL(string: ngrok + "?base64=" + base64String)
-        var response = Alamofire.request(url)
+
+        
         
         dismiss(animated: true, completion: nil);
     }
-    
+    func same() {
+        
+    }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismiss(animated: true, completion:nil);
