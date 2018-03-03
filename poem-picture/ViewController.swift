@@ -40,17 +40,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         same(imageData:imageData) { (output) in
             self.tags = output
         }
-        dismiss(animated: true, completion: nil);
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil);
-        let ivc = storyboard.instantiateViewController(withIdentifier: "filler-processing");
-        ivc.modalPresentationStyle = .custom;
-        ivc.modalTransitionStyle = .crossDissolve;
-        self.present(ivc, animated: true);
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // change 2 to desired number of seconds
+            self.dismiss(animated: true){
+                self.performSegue(withIdentifier: "toFiller", sender: nil)
+            };
+        }
+
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil);
+//        let ivc = storyboard.instantiateViewController(withIdentifier: "filler-processing");
+//        ivc.modalPresentationStyle = .custom;
+//        ivc.modalTransitionStyle = .crossDissolve;
+//        self.present(ivc, animated: true);
         
     }
     
     func same(imageData:Data, completionBlock: @escaping (String) -> Void) -> Void {
+        var key = "ce9c64a70167498fafcdbfd3502a63fd"
         let urlString = "https://westus2.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories&language=en"
         print (urlString)
         let url = URL(string: urlString)!
@@ -87,6 +94,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "toFiller"){
+            if let vc = segue.destination as? FillerViewController{
+                vc.tags = self.tags
+            }
+        }
     }
 
 
