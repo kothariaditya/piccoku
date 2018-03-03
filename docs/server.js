@@ -7,6 +7,10 @@ var app = express();
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname));
 hbs.registerPartials(path.join(__dirname, "views"));
+hbs.registerHelper("showHr", function(index_count,block) {
+  if(parseInt(index_count)%2=== 0){
+    return block.fn(this);}
+});
 
 app.get('/', function(req, res) {
   res.render('index.hbs', {

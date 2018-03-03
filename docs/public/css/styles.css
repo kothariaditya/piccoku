@@ -1,0 +1,43 @@
+body {
+    background: #B3E1D7;
+    margin: 100px;
+    font-family: sans-serif;
+}
+body > h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+.half-row {
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 50%;
+    height: 240px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 10px;
+}
+.half-row > p {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+}
+.half-row > p.top {
+	transform: translate(-50%, -200%);
+}
+.half-row > p.mid {
+	transform: translate(-50%, 0%);
+}
+.half-row > p.bot {
+	transform: translate(-50%, 200%);
+}
+.half-row > img {
+	background: rgba(39,62,84,0.82);
+}
+.container {
+    display: flex;
+}
+.row {
+    display: flex;
+}
