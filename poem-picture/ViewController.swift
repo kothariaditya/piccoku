@@ -13,9 +13,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //    let ngrok = "http://786794ad.ngrok.io/"
     var chosenImage: UIImage! = nil
     var tags:String!
-    
-    @IBOutlet var imageView: UIImageView!
-    //    @IBOutlet var imageView: UIImageView!
+
     @IBAction func takePicture(_ sender: Any) {
         let imagePicker = UIImagePickerController();
         imagePicker.delegate = self;
@@ -33,7 +31,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage;
         image = chosenImage
         
-        imageView.image = chosenImage;
+//        imageView.image = chosenImage;
         let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
 
         same(imageData:imageData) { (output) in

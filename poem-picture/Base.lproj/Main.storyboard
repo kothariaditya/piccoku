@@ -19,23 +19,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Txh-y4-u3A">
-                                <rect key="frame" x="41" y="329" width="294" height="30"/>
+                                <rect key="frame" x="137" y="305" width="100" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="take pic"/>
+                                <color key="backgroundColor" red="0.84004970570000004" green="0.96867744519999999" blue="0.94443126109999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="take pic">
+                                    <color key="titleColor" red="0.41773804219999999" green="0.48170175729999998" blue="0.46964466900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
                                 <connections>
                                     <action selector="takePicture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZUt-HW-ilZ"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jqw-io-0iQ">
-                                <rect key="frame" x="41" y="131" width="282" height="190"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.70196078429999997" green="0.88235294119999996" blue="0.84313725490000002" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="Jqw-io-0iQ" id="pKc-P0-E7J"/>
                         <segue destination="wz6-KL-XMn" kind="show" identifier="toFiller" id="tMe-gX-YEG"/>
                     </connections>
                 </viewController>
@@ -181,6 +179,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8La-Gb-dG3"/>
+        <segue reference="tMe-gX-YEG"/>
     </inferredMetricsTieBreakers>
 </document>
