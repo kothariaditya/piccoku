@@ -13,6 +13,7 @@ class PoemViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var poemview: UITextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         poemview.text = poem
