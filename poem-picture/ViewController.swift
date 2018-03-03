@@ -38,10 +38,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
 
         same(imageData:imageData) { (output) in
+            print (output)
             self.tags = output
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // change 2 to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.dismiss(animated: true){
                 self.performSegue(withIdentifier: "toFiller", sender: nil)
             };
@@ -99,7 +100,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toFiller"){
             if let vc = segue.destination as? FillerViewController{
-                vc.tags = self.tags
+                vc.ghetto_tags = self.tags
             }
         }
     }
