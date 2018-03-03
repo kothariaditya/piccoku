@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Foundation
+import SwiftyJSON
+
+var wordInfo: [[String]]!
 
 class FillerViewController: UIViewController {
     var ghetto_tags = ""
@@ -21,28 +25,84 @@ class FillerViewController: UIViewController {
         
         let dict = convertToDictionary(text: ghetto_tags)
         
+        print(dict)
+        print(ghetto_tags)
+        print(JSON(ghetto_tags))
+        
         if let same = dict!["categories"] as? NSArray{
             for x in same{
                 let stringX = "\(x)"
-                var same = stringX.components(separatedBy: "\"")
+                print(stringX)
+                var same = stringX.components(separatedBy: "\n")
+                print(same)
                 var tag = same[1]
+                if let match = same[1].range(of: "(?<=\")[^_]+", options: .regularExpression) {
+                    print(same[1].substring(with: match))
+                    tags.append(same[1].substring(with: match))
+                }
                 tag = tag.replacingOccurrences(of: "_", with: "")
-                tags.append(tag)
+                print(tag)
+//                tags.append(tag)
             }
         }
         
         let largest_tag = tags[0]
+        print(largest_tag)
         getSynonyms(tag: largest_tag){(output) in
             print (output)
+            print("asdf")
+            print(JSON(output))
             let dictionary_v = self.convertToDictionary(text: output)
             print (dictionary_v)
-//            if let jsonResult = try JSONSerialization.jsonObject(with:output, options: []) as? JSONDictionary {
-//                print (jsonresult)
-//            }
+            print("---nani")
+            for word in output {
+                print(word)
+            }
+            
+            // this is hella stupid but basically just converting the data into a readable format
+            let regex = try! NSRegularExpression(pattern:"\\{(.*?)\\}", options: [])
+            var results = [String]()
+            
+            regex.enumerateMatches(in: output, options: [], range: NSMakeRange(0, output.utf16.count)) { result, flags, stop in
+                if let r = result?.range(at: 1), let range = Range(r, in: output) {
+                    results.append(String(output[range]))
+                }
+            }
+            
+            print(results) // ["test", "test1"]
+            var asdf = results.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
+            let stringArray = results.chunked(by: 2)
+//            let asdf = stringArray.enumerated().flatMap { index, element in index % 3 == 2 ? nil : element }
+            print(asdf)
+            // um better formatted i guess
+            var deepag: [[String]] = []
+            for (index, str) in asdf.enumerated() {
+                asdf[index] = str.replacingOccurrences(of: "\"", with: "")
+                deepag.append([asdf[index].components(separatedBy: ",")[0], asdf[index].components(separatedBy: ",")[2]])
+            }
+//            var deepag: [[String]]
+            print("---")
+            print(deepag)
+            wordInfo = deepag
         }
 //        self.performSegue(withIdentifier: "toPoem", sender: self)
         
         // Do any additional setup after loading the view.
+    }
+    func find(inText text: String, pattern: String) -> [String]? {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let result = regex.matches(in: text, options: .init(rawValue: 0), range: NSRange(location: 0, length: text.count))
+            
+            let matches = result.map { result in
+                return (text as NSString).substring(with: result.range)
+            }
+            
+            return matches
+        } catch {
+            print(error)
+        }
+        return nil
     }
     
     func getSynonyms(tag:String, completionBlock: @escaping (String) -> Void) -> Void{
@@ -57,6 +117,7 @@ class FillerViewController: UIViewController {
             } else {
                 let stringV = String(data: data!, encoding: .utf8)!
                 print ("stringV is " + stringV)
+                print(JSON(stringV))
                 completionBlock(stringV);
             }
         }.resume()
@@ -92,4 +153,18 @@ class FillerViewController: UIViewController {
     }
     */
 
+}
+
+extension Array {
+    
+    func chunked(by distance: IndexDistance) -> [[Element]] {
+        let indicesSequence = stride(from: startIndex, to: endIndex, by: distance)
+        let array: [[Element]] = indicesSequence.map {
+            let newIndex = $0.advanced(by: distance) > endIndex ? endIndex : $0.advanced(by: distance)
+            //let newIndex = self.index($0, offsetBy: distance, limitedBy: self.endIndex) ?? self.endIndex // also works
+            return Array(self[$0 ..< newIndex])
+        }
+        return array
+    }
+    
 }

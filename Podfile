@@ -7,6 +7,8 @@ target 'poem-picture' do
 
   # Pods for poem-picture
 pod 'Alamofire', '~> 4.0.1'
+ pod 'SwiftyJSON', :git =>'https://github.com/SwiftyJSON/SwiftyJSON.git'
+
 
   target 'poem-pictureTests' do
     inherit! :search_paths
