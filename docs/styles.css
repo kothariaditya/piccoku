@@ -34,6 +34,8 @@ body > h1 {
 }
 .half-row > img {
 	background: rgba(39,62,84,0.82);
+    height: 100%;
+    text-shadow: none;
 }
 .half-row > img:hover {
     text-shadow: 2px 2px;
