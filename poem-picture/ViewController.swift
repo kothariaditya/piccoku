@@ -13,6 +13,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //    let ngrok = "http://786794ad.ngrok.io/"
     var chosenImage: UIImage! = nil
     var tags:String!
+    
+    @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
 
     @IBAction func takePicture(_ sender: Any) {
         let imagePicker = UIImagePickerController();
