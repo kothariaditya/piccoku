@@ -21,7 +21,8 @@ class FillerViewController: UIViewController {
     var tag_count = 0
     var entire_poem = ""
     let verbs = ["slept", "floats", "flew", "wrote", "lied", "burst", "knew", "sang", "stole", "froze"]
-
+    let verbs2 = ["always", "later", "over", "slowly", "sooner", "proper"]
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Do any additional setup after loading the view.
@@ -283,14 +284,17 @@ class FillerViewController: UIViewController {
         let first_noun = first_word_word[1]
         let first_syllable = Int(first_word_syllable[1])
         remaining_syllables -= first_syllable!
-        
+        var real_adjectives = [[String]].init()
         if(adjectives.count == 0){
-            return first_line + "is like"
+            real_adjectives = [["word:vibrant","numSyllables:2"], ["word:big", "numSyllables:1"], ["word:important", "numSyllables:3"]]
+        }
+        else{
+            real_adjectives = adjectives
         }
         
         var index = 1
         while remaining_syllables > 0{
-            let x = adjectives[index]
+            let x = real_adjectives[index]
             let num_syllable:Int = getSyllable(data:x)
             let adjective = getWord(data:x)
             if(remaining_syllables - num_syllable >= 0){
@@ -306,7 +310,7 @@ class FillerViewController: UIViewController {
     }
     
     func secondLine(adjectives:[[String]], artsy:[[String]], color:String) -> String{
-        var remaining_syllables = 7
+        var remaining_syllables = 5
         var second_line = "The "
         
         let color = color
@@ -347,18 +351,31 @@ class FillerViewController: UIViewController {
         let remaining_syllables = 5
         
         third_line += tag
-//        if(adverb != ""){
-//            third_line += " is " + adverb
-//        }
-//        else{
-        let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
-        let index2 = Int(arc4random_uniform(UInt32(self.verbs.count)))
+        print ("tag is \(tag)")
         print ("tag_count is \(tag_count)")
-
-        third_line += " " + verbs[index] + " and " + verbs[index2]
-//        }
-        
-
+        var verbs_count = total_syllables - tag_count
+        if(verbs_count == 3){
+            let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
+            var index2 = Int(arc4random_uniform(UInt32(self.verbs.count)));
+            while(index2 == index){
+                index2 = Int(arc4random_uniform(UInt32(self.verbs.count)))
+            }
+            
+            third_line += " " + verbs[index] + " and " + verbs[index2]
+        }
+        else if(verbs_count == 2){
+            let index = Int(arc4random_uniform(UInt32(self.verbs2.count)))
+            third_line += verbs2[index]
+        }
+        else if(verbs_count == 1){
+            let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
+            third_line += " " + verbs[index]
+        }
+        else {
+            let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
+            let index2 = Int(arc4random_uniform(UInt32(self.verbs2.count)))
+            third_line += " " + verbs[index] + " and " + verbs2[index2]
+        }
 
         return third_line
     }
