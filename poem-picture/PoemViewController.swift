@@ -13,14 +13,16 @@ class PoemViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var poemview: UITextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         poemview.text = poem
         imageView.image = image
         
         let imageData: Data! = UIImageJPEGRepresentation(image, 0.1)
-        let base64 = (imageData as NSData).base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         
+        let base64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+
         let lines = poem.components(separatedBy: "\n")
 
         // Do any additional setup after loading the view.

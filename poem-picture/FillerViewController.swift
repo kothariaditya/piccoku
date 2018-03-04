@@ -32,7 +32,7 @@ class FillerViewController: UIViewController {
         if let tags = dict!["tags"] as? NSArray{
             if(tags.count <= 3){
                 //TODO: emily make this retake please -- lmao it's still cut
-                self.performSegue(withIdentifier: "retake", sender: self)
+                self.performSegue(withIdentifier: "unwind", sender: self)
             }
         }
         
@@ -179,6 +179,7 @@ class FillerViewController: UIViewController {
             }
             
             adjectives = deepag
+            print (adjectives)
         }
 
         
