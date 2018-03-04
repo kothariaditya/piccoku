@@ -8,6 +8,9 @@ body > h1 {
     color: white;
     margin-bottom: 40px;
 }
+p {
+    z-index: 20;
+}
 .half-row {
     position: relative;
     text-align: center;
@@ -35,10 +38,11 @@ body > h1 {
 .half-row > img {
 	background: rgba(39,62,84,0.82);
     height: 100%;
-    text-shadow: none;
+    filter: drop-shadow(0px 0px 0px);
+    transition: all .35s;
 }
 .half-row > img:hover {
-    text-shadow: 2px 2px;
+    filter: drop-shadow(15px 15px 15px #222);
 }
 .container {
     display: flex;
