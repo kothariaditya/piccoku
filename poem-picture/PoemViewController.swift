@@ -24,7 +24,8 @@ class PoemViewController: UIViewController {
         
         let imageData: Data! = UIImageJPEGRepresentation(image, 0.1)
         
-        let base64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+        var base64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+        base64 = base64.replacingOccurrences(of: "+", with: "%2b")
         print (base64)
         
         let lines = poem.components(separatedBy: "\n")

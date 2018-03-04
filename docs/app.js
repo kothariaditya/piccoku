@@ -16,8 +16,8 @@ for (let elem_index in JSON_input) {
 	var url = elem.url.replace(" ", "+").trim()
 
 	console.log(url)
-	console.log(elem.url.charAt(first_break))
-	console.log(base64Decoded)
+	// console.log(elem.url.charAt(first_break))
+	// console.log(base64Decoded)
 	first_break = 224
 	let base64Decoded = decodeURIComponent( escape( window.atob( elem.url ) ) )
 
