@@ -51,7 +51,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.dismiss(animated: true){
                 if let tags = dict["tags"] as? NSArray{
                     if(tags.count <= 3){
-                        print ("redoit")
+                            let alertController = UIAlertController(title: "Error", message: "Please retake your photo.", preferredStyle: .alert)
+                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                            alertController.addAction(defaultAction)
+                            self.present(alertController, animated: true, completion: nil)
                     }
                     else{
                         self.performSegue(withIdentifier: "toFiller", sender: nil)
