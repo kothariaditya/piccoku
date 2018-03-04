@@ -179,6 +179,7 @@ class FillerViewController: UIViewController {
             }
             
             adjectives = deepag
+            print (adjectives)
         }
 
         
