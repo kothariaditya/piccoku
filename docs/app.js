@@ -13,9 +13,15 @@ let container = document.getElementById("container")
 for (let elem_index in JSON_input) {
 	let elem = JSON_input[elem_index]
 	let elem2 = JSON_input[elem_index + 1]
-	let base64Decoded = decodeURIComponent( escape( window.atob( elem.url ) ) )
-	console.log(elem.url)
+	var url = elem.url.replace(" ", "+").trim()
+
+	console.log(url)
+	console.log(elem.url.charAt(first_break))
 	console.log(base64Decoded)
+	first_break = 224
+	let base64Decoded = decodeURIComponent( escape( window.atob( elem.url ) ) )
+
+
 	container.innerHTML += "<div class = 'row'>\
 								<div class = 'half-row'>\
 									<p class = 'top'>" + elem.line1 + "</p>\
@@ -31,10 +37,3 @@ for (let elem_index in JSON_input) {
 								</div>\
 							</div>"
 }
-
-
-
-
-
-
-

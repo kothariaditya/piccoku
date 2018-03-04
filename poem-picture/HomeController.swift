@@ -14,6 +14,8 @@ var username: String!
 
 class HomeController: ViewController {
     @IBOutlet var name: UITextField!
+    @IBAction func retakePhoto(segue:UIStoryboardSegue) { }
+
     @IBAction func start(_ sender: Any) {
 //        if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
 //                let alertController = UIAlertController(title: "Error", message: "Please turn your device horizontallly.", preferredStyle: .alert)

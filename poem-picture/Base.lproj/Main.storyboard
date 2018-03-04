@@ -101,6 +101,9 @@
                                 <state key="normal" title="take pic">
                                     <color key="titleColor" red="0.41773804219999999" green="0.48170175729999998" blue="0.46964466900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="retake:" destination="GOi-B2-Ntb" eventType="touchUpInside" id="Vqd-Qx-phg"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="29V-Y9-cqs">
                                 <rect key="frame" x="46" y="140" width="282" height="190"/>
@@ -121,9 +124,11 @@
                     <connections>
                         <outlet property="imageView" destination="29V-Y9-cqs" id="wN2-SU-psY"/>
                         <outlet property="poemview" destination="gSX-Cq-g8S" id="0PY-SR-4aK"/>
+                        <segue destination="n8H-hl-aLo" kind="unwind" identifier="retake" unwindAction="retakePhotoWithSegue:" id="MUS-hT-NK8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jtj-MX-Sc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="n8H-hl-aLo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1526" y="106"/>
         </scene>
