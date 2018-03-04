@@ -35,6 +35,9 @@ body > h1 {
 .half-row > img {
 	background: rgba(39,62,84,0.82);
 }
+.half-row > img:hover {
+    text-shadow: 2px 2px;
+}
 .container {
     display: flex;
 }
