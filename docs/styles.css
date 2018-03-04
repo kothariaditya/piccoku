@@ -3,6 +3,9 @@ body {
     margin: 100px;
     font-family: sans-serif;
 }
+body > img {
+    margin-top: -75px;
+}
 body > h1 {
     text-align: center;
     color: white;
@@ -14,7 +17,7 @@ p {
 .half-row {
     position: relative;
     text-align: center;
-    color: white;
+    color: #284a43;
     width: 38%;
     height: 240px;
     overflow-x: hidden;
@@ -40,6 +43,7 @@ p {
     height: 100%;
     filter: drop-shadow(0px 0px 0px);
     transition: all .35s;
+    opacity: 0.3;
 }
 .half-row > img:hover {
     filter: drop-shadow(15px 15px 15px #222);
