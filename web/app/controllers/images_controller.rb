@@ -3,11 +3,12 @@ class ImagesController < ApplicationController
 
   def index
     @image = Image.all.order("created_at DESC")
-    render json: @image
+    render json: @image, :except => [:imgstr]
   end
 
   def create
-    @image = Image.new(user_name: params[:user_name], url: params[:url])
+    @image = Image.new(user_name: params[:user_name], url: params[:url],
+      line1: params[:line1], line2: params[:line2], line3: params[:line3])
     @image.save
     render json: {
       message: "Successfully created image",
