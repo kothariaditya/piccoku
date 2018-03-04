@@ -20,10 +20,10 @@ class FillerViewController: UIViewController {
     var adverb_count = 0
     var tag_count = 0
     var entire_poem = ""
+    let verbs = ["slept", "floats", "flew", "wrote", "lied", "burst", "knew", "sang", "stole", "froze"]
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        self.performSegue(withIdentifier: "toPoem", sender: self)
         // Do any additional setup after loading the view.
     }
     
@@ -42,7 +42,7 @@ class FillerViewController: UIViewController {
                 let stringX = "\(x)"
                 var same = stringX.components(separatedBy: "\n")
                 var tag = same[2]
-                var score = same[1]
+                let score = same[1]
                 
                 //                if let match = tag.range(of: "(?<=\")[^_]+", options: .regularExpression) {
                 tag = tag.components(separatedBy:"=")[1]
@@ -87,12 +87,11 @@ class FillerViewController: UIViewController {
             nouns = tags
         }
         
-        if(nouns.count == 0){
-            self.performSegue(withIdentifier: "unwind", sender: nil)
-        }
         var largest_tag = nouns[0]
         
         let url6 = "https://wordsapiv1.p.mashape.com/words/" + largest_tag + "/syllables"
+        
+        print (url6)
         
         var request2 = URLRequest(url: URL(string: url6)!)
         request2.httpMethod = "GET"
@@ -106,6 +105,7 @@ class FillerViewController: UIViewController {
             let dict = self.convertToDictionary(text: responseString)
             if let syllables = dict!["syllables"] as? [String:AnyObject]{
                 if let count = syllables["count"] as? Int{
+                    print ("ASDLFKJASLKDF \(count)")
                     self.tag_count = count
                 }
             }
@@ -210,8 +210,6 @@ class FillerViewController: UIViewController {
             }
             
             artsy_adjectives = deepag
-            
-            self.makeHaiku(tag:largest_tag, real_nouns: real_nouns, adjectives: adjectives,artsy:artsy_adjectives, color:backgroundColor)
         }
         
         var ad_verb = [String].init()
@@ -265,11 +263,13 @@ class FillerViewController: UIViewController {
     func makeHaiku(tag:String, real_nouns:[[String]], adjectives:[[String]], artsy:[[String]], color:String){
         let first_line = firstLine(real_nouns:real_nouns, adjectives:adjectives)
         let second_line = secondLine(adjectives:adjectives, artsy:artsy, color:color)
-        let third_line = thirdLine(tag:tag, adjectives:adjectives)
-        print (first_line, second_line, third_line)
-        entire_poem += first_line + "\n" + second_line + "\n" + third_line
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.performSegue(withIdentifier: "toPoem", sender: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // change 2 to desired number of seconds
+            let third_line = self.thirdLine(tag:tag, adjectives:adjectives)
+
+            self.entire_poem += first_line + "\n" + second_line + "\n" + third_line
+            
+            UserDefaults.standard.set(self.entire_poem, forKey: "poem")
+            self.performSegue(withIdentifier: "toPoem", sender: self)
         }
     }
 
@@ -284,6 +284,10 @@ class FillerViewController: UIViewController {
         let first_syllable = Int(first_word_syllable[1])
         remaining_syllables -= first_syllable!
         
+        if(adjectives.count == 0){
+            return first_line + "is like"
+        }
+        
         var index = 1
         while remaining_syllables > 0{
             let x = adjectives[index]
@@ -297,18 +301,7 @@ class FillerViewController: UIViewController {
             index += 1
         }
         first_line += first_noun
-        
-//        for x in adjectives{
-//            let num_syllable:Int = getSyllable(data:x)
-//
-//            if(first_line_count - first_syllable! == num_syllable){
-//                first_adjective = getWord(data:x)
-//                break
-//            }
-//        }
-//
-//        let first_line = first_adjective + " " + first_noun
-        
+
         return first_line
     }
     
@@ -346,6 +339,7 @@ class FillerViewController: UIViewController {
         return second_line
     }
     
+    
     func thirdLine(tag:String, adjectives:[[String]]) -> String{
         let total_syllables = 5
         
@@ -353,12 +347,16 @@ class FillerViewController: UIViewController {
         let remaining_syllables = 5
         
         third_line += tag
-        if(adverb != ""){
-            third_line += " is " + adverb
-        }
-        else{
-            third_line += " is good"
-        }
+//        if(adverb != ""){
+//            third_line += " is " + adverb
+//        }
+//        else{
+        let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
+        let index2 = Int(arc4random_uniform(UInt32(self.verbs.count)))
+        print ("tag_count is \(tag_count)")
+
+        third_line += " " + verbs[index] + " and " + verbs[index2]
+//        }
         
 
 
@@ -426,12 +424,11 @@ class FillerViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "toPoem"){
-            var same = segue.destination as? PoemViewController
-
-            same?.poem = self.entire_poem
-        }
-        else if(segue.identifier == "unwind"){
+//        if(segue.identifier == "toPoem"){
+//            var same = segue.destination as? PoemViewController
+//            same?.poem = self.entire_poem
+//        }
+        if(segue.identifier == "unwind"){
             segue.source.dismiss(animated: true, completion: nil)
         }
     }

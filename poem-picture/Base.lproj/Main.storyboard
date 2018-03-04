@@ -68,9 +68,9 @@
                         <viewLayoutGuide key="safeArea" id="2fW-HF-OzM"/>
                     </view>
                     <connections>
-                        <segue destination="GOi-B2-Ntb" kind="show" identifier="toPoem" id="wY0-is-BDK"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="retake" id="8La-Gb-dG3"/>
                         <segue destination="ls5-Hl-Vc9" kind="unwind" identifier="unwind" unwindAction="unwindToVC1WithSegue:" id="KPu-Up-DjQ"/>
+                        <segue destination="GOi-B2-Ntb" kind="show" identifier="toPoem" id="78x-hv-zzn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qi5-o6-IfG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -81,7 +81,7 @@
         <!--Poem View Controller-->
         <scene sceneID="89I-l8-GSr">
             <objects>
-                <viewController id="GOi-B2-Ntb" customClass="PoemViewController" customModule="poem_picture" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="poem" id="GOi-B2-Ntb" customClass="PoemViewController" customModule="poem_picture" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fS3-s4-zJr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -106,11 +106,11 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="29V-Y9-cqs">
-                                <rect key="frame" x="46" y="140" width="282" height="190"/>
+                                <rect key="frame" x="46" y="46" width="282" height="284"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gSX-Cq-g8S">
-                                <rect key="frame" x="67" y="338" width="240" height="128"/>
+                                <rect key="frame" x="49" y="340" width="275" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" red="0.41773804219999999" green="0.48170175729999998" blue="0.46964466900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -130,7 +130,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jtj-MX-Sc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="n8H-hl-aLo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1526" y="106"/>
+            <point key="canvasLocation" x="1576.8" y="130.88455772113943"/>
         </scene>
         <!--HomeController-->
         <scene sceneID="kiw-7k-CMf">
