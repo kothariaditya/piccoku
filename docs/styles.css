@@ -12,7 +12,7 @@ body > h1 {
     position: relative;
     text-align: center;
     color: white;
-    width: 50%;
+    width: 38%;
     height: 240px;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -45,4 +45,5 @@ body > h1 {
 }
 .row {
     display: flex;
+    justify-content: center;
 }
