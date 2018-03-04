@@ -35,27 +35,44 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
 //        imageView.image = chosenImage;
         let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
-
+        var dict = [String:AnyObject].init()
         same(imageData:imageData) { (output) in
 //            else{
             self.tags = output
 //            }
+            let tags = (NSArray.init() as? [String])!
+            let num_syllables = (NSArray.init() as? [Int])!
+            print (self.tags)
+            dict = self.convertToDictionary(text: self.tags) as! [String : AnyObject]
+            var scores = (NSArray.init() as? [Float])!
         }
-
+  
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.dismiss(animated: true){
-                self.performSegue(withIdentifier: "toFiller", sender: nil)
-            };
+                if let tags = dict["tags"] as? NSArray{
+                    if(tags.count <= 3){
+                        print ("redoit")
+                    }
+                    else{
+                        self.performSegue(withIdentifier: "toFiller", sender: nil)
+                    };
+                }
+            }
         }
-
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil);
-//        let ivc = storyboard.instantiateViewController(withIdentifier: "filler-processing");
-//        ivc.modalPresentationStyle = .custom;
-//        ivc.modalTransitionStyle = .crossDissolve;
-//        self.present(ivc, animated: true);
-        
     }
+    
+    // https://stackoverflow.com/questions/30480672/how-to-convert-a-json-string-to-a-dictionary
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+
     
     func same(imageData:Data, completionBlock: @escaping (String) -> Void) -> Void {
         var key = "ce9c64a70167498fafcdbfd3502a63fd"

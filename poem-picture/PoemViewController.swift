@@ -22,7 +22,8 @@ class PoemViewController: UIViewController {
         let imageData: Data! = UIImageJPEGRepresentation(image, 0.1)
         
         let base64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
-
+//        print (base64)
+        
         let lines = poem.components(separatedBy: "\n")
 
         // Do any additional setup after loading the view.
@@ -32,6 +33,7 @@ class PoemViewController: UIViewController {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let postString = "url=" + base64 + "&name=" + username + "&line1=" + lines[0] + "&line2=" + lines[1] + "&line3=" + lines[2]
+        print (postString)
         request.httpBody = postString.data(using: .utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
