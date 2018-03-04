@@ -21,7 +21,7 @@ class PoemViewController: UIViewController {
         super.viewDidLoad()
         
         poem = UserDefaults.standard.string(forKey: "poem")
-        print (poem)
+
         poemview.text = poem
         imageView.image = image
         
