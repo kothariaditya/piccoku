@@ -13,13 +13,17 @@ let container = document.getElementById("container")
 for (let elem_index in JSON_input) {
 	let elem = JSON_input[elem_index]
 	let elem2 = JSON_input[elem_index + 1]
-	var url = elem.url.replace(" ", "+").trim()
-
+	// var url = elem.url.replace(" ", "+").trim()
+	var url = elem.url
 	console.log(url)
 	// console.log(elem.url.charAt(first_break))
 	// console.log(base64Decoded)
-	first_break = 224
-	let base64Decoded = decodeURIComponent( escape( window.atob( elem.url ) ) )
+	// first_break = 224
+	let same = decodeURIComponent(url)
+
+	var decode = window.atob(same)
+
+	// let base64Decoded = decodeURIComponent( escape( window.atob( elem.url ) ) )
 
 
 	container.innerHTML += "<div class = 'row'>\
@@ -33,7 +37,7 @@ for (let elem_index in JSON_input) {
 									<p class = 'top'>" + elem.line1 + "</p>\
 									<p class = 'mid'>" + elem.line2 + "</p>\
 									<p class = 'bot'>" + elem.line3 + "</p>\
-									<img src = 'data:image/jpg;base64," + base64Decoded + "'>\
+									<img src = 'data:image/png;base64, " + same + "'>\
 								</div>\
 							</div>"
 }
