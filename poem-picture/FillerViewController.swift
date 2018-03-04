@@ -20,10 +20,10 @@ class FillerViewController: UIViewController {
     var adverb_count = 0
     var tag_count = 0
     var entire_poem = ""
+    let verbs = ["slept", "floats", "flew", "wrote", "lied", "burst", "knew", "sang", "stole", "froze"]
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //        self.performSegue(withIdentifier: "toPoem", sender: self)
         // Do any additional setup after loading the view.
     }
     
@@ -42,7 +42,7 @@ class FillerViewController: UIViewController {
                 let stringX = "\(x)"
                 var same = stringX.components(separatedBy: "\n")
                 var tag = same[2]
-                var score = same[1]
+                let score = same[1]
                 
                 //                if let match = tag.range(of: "(?<=\")[^_]+", options: .regularExpression) {
                 tag = tag.components(separatedBy:"=")[1]
@@ -87,9 +87,6 @@ class FillerViewController: UIViewController {
             nouns = tags
         }
         
-        if(nouns.count == 0){
-            self.performSegue(withIdentifier: "unwind", sender: nil)
-        }
         var largest_tag = nouns[0]
         
         let url6 = "https://wordsapiv1.p.mashape.com/words/" + largest_tag + "/syllables"
@@ -210,8 +207,6 @@ class FillerViewController: UIViewController {
             }
             
             artsy_adjectives = deepag
-            
-            self.makeHaiku(tag:largest_tag, real_nouns: real_nouns, adjectives: adjectives,artsy:artsy_adjectives, color:backgroundColor)
         }
         
         var ad_verb = [String].init()
@@ -266,11 +261,19 @@ class FillerViewController: UIViewController {
         let first_line = firstLine(real_nouns:real_nouns, adjectives:adjectives)
         let second_line = secondLine(adjectives:adjectives, artsy:artsy, color:color)
         let third_line = thirdLine(tag:tag, adjectives:adjectives)
-        print (first_line, second_line, third_line)
-        entire_poem += first_line + "\n" + second_line + "\n" + third_line
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.performSegue(withIdentifier: "toPoem", sender: nil)
+        print ("heyo is " + first_line, second_line, third_line)
+        self.entire_poem += first_line + "\n" + second_line + "\n" + third_line
+        print (self.entire_poem)
+        
+        UserDefaults.standard.set(self.entire_poem, forKey: "poem")
+        DispatchQueue.main.async
+        {
+            
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "poem") as! DisplayViewController
+//                self.present(vc, animated: true, completion: nil)
+            self.performSegue(withIdentifier: "toPoem", sender: self)
         }
+
     }
 
     func firstLine(real_nouns:[[String]], adjectives:[[String]]) -> String{
@@ -283,6 +286,10 @@ class FillerViewController: UIViewController {
         let first_noun = first_word_word[1]
         let first_syllable = Int(first_word_syllable[1])
         remaining_syllables -= first_syllable!
+        
+        if(adjectives.count == 0){
+            return first_line + "is like"
+        }
         
         var index = 1
         while remaining_syllables > 0{
@@ -346,6 +353,7 @@ class FillerViewController: UIViewController {
         return second_line
     }
     
+    
     func thirdLine(tag:String, adjectives:[[String]]) -> String{
         let total_syllables = 5
         
@@ -353,12 +361,16 @@ class FillerViewController: UIViewController {
         let remaining_syllables = 5
         
         third_line += tag
-        if(adverb != ""){
-            third_line += " is " + adverb
-        }
-        else{
-            third_line += " is good"
-        }
+//        if(adverb != ""){
+//            third_line += " is " + adverb
+//        }
+//        else{
+        let index = Int(arc4random_uniform(UInt32(self.verbs.count)))
+        let index2 = Int(arc4random_uniform(UInt32(self.verbs.count)))
+        print (tag_count)
+
+        third_line += " " + verbs[index] + " and " + verbs[index2]
+//        }
         
 
 
@@ -426,12 +438,11 @@ class FillerViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "toPoem"){
-            var same = segue.destination as? PoemViewController
-
-            same?.poem = self.entire_poem
-        }
-        else if(segue.identifier == "unwind"){
+//        if(segue.identifier == "toPoem"){
+//            var same = segue.destination as? PoemViewController
+//            same?.poem = self.entire_poem
+//        }
+        if(segue.identifier == "unwind"){
             segue.source.dismiss(animated: true, completion: nil)
         }
     }

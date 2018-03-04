@@ -19,6 +19,9 @@ class PoemViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        poem = UserDefaults.standard.string(forKey: "poem")
+        print (poem)
         poemview.text = poem
         imageView.image = image
         
@@ -26,7 +29,7 @@ class PoemViewController: UIViewController {
         
         var base64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
         base64 = base64.replacingOccurrences(of: "+", with: "%2b")
-        print (base64)
+//        print (base64)
         
         let lines = poem.components(separatedBy: "\n")
 
@@ -47,11 +50,11 @@ class PoemViewController: UIViewController {
 
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
+//                print("response = \(response)")
             }
 
             let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
+//            print("responseString = \(responseString)")
         }
         task.resume()
         

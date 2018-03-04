@@ -50,7 +50,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             self.dismiss(animated: true){
                 if let tags = dict["tags"] as? NSArray{
-                    if(tags.count <= 3){
+                    if(tags.count <= 2){
                             let alertController = UIAlertController(title: "Error", message: "Please retake your photo.", preferredStyle: .alert)
                             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                             alertController.addAction(defaultAction)
